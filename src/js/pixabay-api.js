@@ -4,7 +4,7 @@ import axios from "axios";
 export async function getImages(request) {
     try {
         axios.defaults.baseURL = 'https://pixabay.com';
-        const res = await axios.get('/api', {
+        const res = await axios.get('/api/', {
             params: {
                 key: '44319460-4af2fb7eeaa8b0840083a4a49',
                 q: request,
@@ -16,7 +16,7 @@ export async function getImages(request) {
             }
         
         })
-        console.log(res.data);
+       
         return res.data;
     } catch (error) {
         console.log(error);
