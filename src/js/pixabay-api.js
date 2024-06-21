@@ -16,6 +16,7 @@ export async function getImages(request) {
             }
         
         })
+        console.log(res.data);
         return res.data;
     } catch (error) {
         console.log(error);
