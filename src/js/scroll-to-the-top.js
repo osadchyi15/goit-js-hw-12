@@ -7,7 +7,7 @@ export function toTheTop() {
     
 export function checkScroll() {
         const scrollPosition = window.scrollY;
-         if (scrollPosition >= 500) {
+         if (scrollPosition >= 300) {
 
                 refs.upBtn.removeAttribute('hidden');
             } else {
