@@ -8,15 +8,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import { renderImages } from "./js/render-functions";
 import { getImages } from "./js/pixabay-api";
-
-const refs = {
-    imageSearchForm: document.querySelector('.search-form'),
-    imageSearchInput: document.querySelector('.search-input'),
-    submitButton: document.querySelector('.search-btn'),
-    imageList: document.querySelector('.images-list'),
-    loader: document.querySelector('.loader'),
-    more: document.querySelector('.more-button'),
-}
+import { checkScroll, toTheTop } from "./js/scroll-to-the-top";
+import { refs } from "./js/refs";
 
 let request;
 let page = 1;
@@ -25,6 +18,8 @@ const per_page = 15;
 
 refs.imageSearchForm.addEventListener('submit', async e => {
     e.preventDefault();
+
+    
   
     request = e.target.elements.userData.value.trim();
     page = 1;
@@ -110,8 +105,8 @@ refs.more.addEventListener('click', async () => {
 
         checkBtnStatus(page, maxPage);
     hideLoader();
-    console.log(page, maxPage);
-})
+
+   })
     
 
   
@@ -152,4 +147,9 @@ function skipPrewElem() {
         top: height * 3 + 48,
         behavior: 'smooth',
     })
-    }
+}
+    
+window.addEventListener('scroll', checkScroll);
+refs.upBtn.addEventListener('click', toTheTop);
+
+    
