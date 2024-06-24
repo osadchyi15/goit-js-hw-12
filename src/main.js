@@ -10,17 +10,30 @@ import { renderImages } from "./js/render-functions";
 import { getImages } from "./js/pixabay-api";
 import { checkScroll, toTheTop } from "./js/scroll-to-the-top";
 import { refs } from "./js/refs";
+import { hideLoader, hideMoreBtn, showLoader, showMoreBtn } from "./hide-show-button-loader";
 
 let request;
 let page = 1;
 let maxPage = 1;
 const per_page = 15;
 
+const lightbox = new SimpleLightbox('.images-list-item a',{
+                        captions: true,
+                        captionSelector: 'img',
+                        captionType: 'attr',
+                        captionsData: 'alt',
+                        captionPosition: 'bottom',
+                        captionDelay: 250,
+                        animationSpeed: 300,
+                        widthRatio: 1,
+                        heightRatio: 0.95,
+                        disableRightClick: true,
+    });
+                    
+
 refs.imageSearchForm.addEventListener('submit', async e => {
     e.preventDefault();
 
-    
-  
     request = e.target.elements.userData.value.trim();
     page = 1;
 
@@ -56,19 +69,6 @@ refs.imageSearchForm.addEventListener('submit', async e => {
 
     maxPage = Math.ceil(data.totalHits / per_page);
 
-
-const lightbox = new SimpleLightbox('.images-list-item a', {
-                        captions: true,
-                        captionSelector: 'img',
-                        captionType: 'attr',
-                        captionsData: 'alt',
-                        captionPosition: 'bottom',
-                        captionDelay: 250,
-                        animationSpeed: 300,
-                        widthRatio: 1,
-                        heightRatio: 0.95,
-                        disableRightClick: true,
-                    });
     lightbox.refresh();
      
     checkBtnStatus();
@@ -76,9 +76,7 @@ const lightbox = new SimpleLightbox('.images-list-item a', {
 
     e.target.reset();
    });
-    
-  
-
+      
 refs.more.addEventListener('click', async () => {
     page++;
     showLoader();
@@ -89,27 +87,12 @@ refs.more.addEventListener('click', async () => {
     
     skipPrewElem();
     
-    const lightbox = new SimpleLightbox('.images-list-item a', {
-            captions: true,
-            captionSelector: 'img',
-            captionType: 'attr',
-            captionsData: 'alt',
-            captionPosition: 'bottom',
-            captionDelay: 250,
-            animationSpeed: 300,
-            widthRatio: 1,
-            heightRatio: 0.95,
-            disableRightClick: true,
-        });
-        lightbox.refresh();
+            lightbox.refresh();
 
         checkBtnStatus(page, maxPage);
     hideLoader();
-
    })
-    
-
-  
+     
 function checkBtnStatus(page, maxPage) {
           if (page >= maxPage) {
         hideMoreBtn();
@@ -124,22 +107,6 @@ function checkBtnStatus(page, maxPage) {
     }
 }
  
-function showMoreBtn() {
-    refs.more.classList.remove('hidden');
-};
-
-function hideMoreBtn() {
-     refs.more.classList.add('hidden');
-};
-
-function showLoader() {
-    refs.loader.style.display = 'block';
-}
-
-function hideLoader() {
-    refs.loader.style.display = 'none';
-}
-
 function skipPrewElem() {
     const height = refs.imageList.children[0].getBoundingClientRect().height;
 
